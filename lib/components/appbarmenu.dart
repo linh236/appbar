@@ -20,7 +20,19 @@ class AppBarMenu extends StatelessWidget{
   Widget build(BuildContext context){
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(title: Text(title), backgroundColor: backgroundbar),
+        appBar: AppBar(
+          title: Text(title), 
+          backgroundColor: backgroundbar,
+          actions: <Widget>[
+            IconButton(
+              onPressed: (){},
+              icon: Icon(
+                Icons.notifications,
+                color: kBellColor,
+              ),
+            ),
+          ],
+        ),
         drawer: Drawer(
             child: ListView(children: <Widget>[
             DrawerHeader(

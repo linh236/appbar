@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBarMenu(
       title: "Home",
-      backgroundbar: Colors.orange, 
+      backgroundbar: kOrangeColor, 
       child: Body(),
     );
   }

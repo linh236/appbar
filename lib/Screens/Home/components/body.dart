@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
-class Body extends StatelessWidget{
+import 'package:appbar/Screens/Home/components/buildbottomcard.dart';
+import 'package:appbar/Screens/Home/components/buildcardslist.dart';
 
+
+
+class Body extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Container(
-        child: Column(
+        child: Stack(
           children: <Widget>[
-            Text("Helo"),
-            Image.asset("assets/images/av.jpg")
+            Align(
+              alignment: Alignment.bottomCenter,
+              child:BuildBottomCard(),
+            ),
+            BuildCardsList(),
           ] 
         )
     );
