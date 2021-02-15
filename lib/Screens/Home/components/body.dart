@@ -34,7 +34,6 @@ class Body extends StatelessWidget{
           future: fetchUsers(),
           builder: (context, snapshot) {
             if(snapshot.hasData){
-              print(_age(snapshot.data[0]));
               return ListView.builder(
                   padding: EdgeInsets.all(8),
                   itemCount: snapshot.data.length,

@@ -4,6 +4,7 @@ import 'package:appbar/Screens/Home/components/customerlisttile.dart';
 import 'package:appbar/Screens/Home/components/body.dart'; 
 import 'package:appbar/Screens/Profile/profile_screen.dart'; 
 import 'package:appbar/Screens/Home/home_screen.dart';
+import 'package:appbar/Screens/Login/login_screen.dart';
 class AppBarMenu extends StatelessWidget{
   final Widget child;
   final String title;  
@@ -94,9 +95,16 @@ class AppBarMenu extends StatelessWidget{
             onTap: () {},
           ),
           CustomerListTile(
-            text: "Log Out",
+            text: "Log in",
             icon: Icons.lock,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context){return LoginScreen();}
+                )
+              );
+            },
           ),
 
         ])),
