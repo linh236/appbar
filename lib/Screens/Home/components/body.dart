@@ -1,68 +1,107 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:appbar/Screens/Home/detail_screen.dart';
+import 'package:appbar/constants.dart';
+import 'package:appbar/models/meeting_model.dart';
 
-class Body extends StatelessWidget{
+//import 'package:appbar/components/meeting_data_source.dart';
+class Body extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    void popUpChose(date) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                title: Text("Test"),
+                content: Text("Context test"),
+                actions: [
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return DetailScreen(date: date);
+                      }));
+                    },
+                    child: Text("Detail"),
+                  ),
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text("Add event"),
+                  ),
+                ]);
+          });
+    }
 
-  final String apiUrl = "https://randomuser.me/api/?results=10";
+    return Scaffold(
+        body: SfCalendar(
+      view: CalendarView.month,
+      dataSource: MeetingDataSource(_getDataSource()),
+      showDatePickerButton: true,
+      onTap: (CalendarTapDetails details) {
+        var date = details.date;
+        popUpChose(date);
+      },
+      allowedViews: <CalendarView>[
+        CalendarView.day,
+        CalendarView.week,
+        CalendarView.workWeek,
+        CalendarView.month,
+        CalendarView.schedule
+      ],
+      monthViewSettings: MonthViewSettings(
+          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+    ));
+  }
+}
 
-  Future<List<dynamic>> fetchUsers() async {
+List<Meeting> _getDataSource() {
+  var meetings = <Meeting>[];
+  var arrayDate = [];
+  final DateTime today = DateTime.now();
+  final DateTime startTime = DateTime(today.year, today.month, today.day);
+  final DateTime endTime = startTime.add(const Duration(hours: 2));
 
-    var result = await http.get(apiUrl);
-    return json.decode(result.body)['results'];
-
+  Future<List> fetchUses() async {
+    var result = await http.get(UrlGetUse);
+    return json.decode(result.body)['data'];
   }
 
-  String _name(dynamic user){
-    return user['name']['title'] + " " + user['name']['first'] + " " +  user['name']['last'];
+  final DateTime start = DateTime.parse("2021-02-18");
+  meetings.add(Meeting('Test', start, start, const Color(0xFF0F8644), false));
+  return meetings;
+}
 
-  }
-
-  String _location(dynamic user){
-    return user['location']['country'];
-  }
-
-  String _age(Map<dynamic, dynamic> user){
-    return "Age: " + user['dob']['age'].toString();
+class MeetingDataSource extends CalendarDataSource {
+  MeetingDataSource(List<Meeting> source) {
+    appointments = source;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: FutureBuilder<List<dynamic>>(
-          future: fetchUsers(),
-          builder: (context, snapshot) {
-            if(snapshot.hasData){
-              return ListView.builder(
-                  padding: EdgeInsets.all(8),
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return
-                      Card(
-                        child: Column(
-                          children: <Widget>[
-                            ListTile(
-                              leading: CircleAvatar(
-                                radius: 30,
-                                backgroundImage: NetworkImage(snapshot.data[index]['picture']['large'])),
-                              title: Text(_name(snapshot.data[index])),
-                              subtitle: Text(_location(snapshot.data[index])),
-                              trailing: Text(_age(snapshot.data[index])),
-                            )
-                          ],
-                        ),
-                      );
-                  });
-            }else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
-
-
-        ),
-      ),
-    );
+  DateTime getStartTime(int index) {
+    return appointments[index].from;
   }
 
+  @override
+  DateTime getEndTime(int index) {
+    return appointments[index].to;
+  }
+
+  @override
+  String getSubject(int index) {
+    return appointments[index].eventName;
+  }
+
+  @override
+  Color getColor(int index) {
+    return appointments[index].background;
+  }
+
+  @override
+  bool isAllDay(int index) {
+    return appointments[index].isAllDay;
+  }
 }

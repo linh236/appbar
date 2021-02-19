@@ -8,3 +8,4 @@ const kOrangeColor = Colors.orange;
 const apiUrl = "https://randomuser.me/api/?results=20";
 const Url = "http://192.168.1.2:3000/v1/items";
 const UrlLogin = "http://192.168.1.2:3000/v1/users";
+const UrlGetUse = "http://192.168.1.2:3000/v1/uses";
