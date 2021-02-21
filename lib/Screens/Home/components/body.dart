@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:appbar/Screens/Home/detail_screen.dart';
 import 'package:appbar/constants.dart';
 import 'package:appbar/models/meeting_model.dart';
-
+import 'package:appbar/Screens/Event/event_screen.dart';
 //import 'package:appbar/components/meeting_data_source.dart';
 class Body extends StatelessWidget {
   @override
@@ -29,7 +29,16 @@ class Body extends StatelessWidget {
                     child: Text("Detail"),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context){
+                            return EventScreen();
+                          }
+                        )
+                      );
+                    },
                     child: Text("Add event"),
                   ),
                 ]);

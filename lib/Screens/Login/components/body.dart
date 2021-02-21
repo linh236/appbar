@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:appbar/constants.dart'; 
 import 'package:appbar/Screens/Login/components/background.dart';
-import 'package:appbar/Screens/Login/components/text_field_container.dart';
-import 'package:appbar/Screens/Login/components/input_text_field.dart';
-import 'package:appbar/Screens/Login/components/input_password_field.dart';
+import 'package:appbar/components/text_field_container.dart';
+import 'package:appbar/components/input_text_field.dart';
+import 'package:appbar/components/input_password_field.dart';
 import 'package:appbar/components/process_login.dart';
 class Body extends StatelessWidget{
   var email="";
